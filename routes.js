@@ -8,8 +8,8 @@ import start from './controller/start.js';
 import dashboard from './controllers/dashboard.js';
 import about from './controllers/about.js';
 
-router.get('/', start.createView);
+router.get('/start', start.createView);
 router.get('/dashboard', dashboard.createView);
-router.get('/abou', about.createView);
+router.get('/about', about.createView);
 
 export default router;
