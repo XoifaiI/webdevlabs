@@ -1,12 +1,15 @@
 {
   "name": "playlist-app",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A little playlist maker",
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "dev": "NODE_ENV=development nodemon server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "keywords": [
     "node",
@@ -15,7 +18,10 @@
   "author": "Mary",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
     "winston": "^3.18.3"
   },
   "devDependencies": {
