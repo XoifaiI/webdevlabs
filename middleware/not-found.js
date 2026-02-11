@@ -1,8 +1,8 @@
 const notFoundHandler = (req, res) => {
   res.status(404).json({
-    status: 'error',
-    message: `Cannot ${req.method} ${req.originalUrl}`,
+    status: "error",
+    message: "Resource not found",
   });
 };
 
-export {notFoundHandler};
+export { notFoundHandler };

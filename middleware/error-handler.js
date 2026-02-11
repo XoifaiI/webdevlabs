@@ -1,6 +1,6 @@
-import {logger} from '../utils/logger.js';
+import logger from "../utils/logger.js";
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === "production";
 
 // eslint-disable-next-line no-unused-vars -- Express requires all 4 params
 const errorHandler = (err, req, res, next) => {
@@ -16,10 +16,10 @@ const errorHandler = (err, req, res, next) => {
 
   // Hide internals from clients in production
   res.status(statusCode).json({
-    status: 'error',
-    message: isProduction ? 'An unexpected error occurred' : err.message,
-    ...(isProduction ? {} : {stack: err.stack}),
+    status: "error",
+    message: isProduction ? "An unexpected error occurred" : err.message,
+    ...(isProduction ? {} : { stack: err.stack }),
   });
 };
 
-export {errorHandler};
+export { errorHandler };

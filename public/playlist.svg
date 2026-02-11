@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="16" fill="url(#bg)"/>
+  <!-- Vinyl record -->
+  <circle cx="160" cy="150" r="80" fill="#1a1a2e" stroke="#333" stroke-width="2"/>
+  <circle cx="160" cy="150" r="60" fill="none" stroke="#2a2a3e" stroke-width="1"/>
+  <circle cx="160" cy="150" r="45" fill="none" stroke="#2a2a3e" stroke-width="1"/>
+  <circle cx="160" cy="150" r="30" fill="none" stroke="#2a2a3e" stroke-width="1"/>
+  <circle cx="160" cy="150" r="12" fill="#667eea" stroke="#fff" stroke-width="1"/>
+  <circle cx="160" cy="150" r="3" fill="#fff"/>
+  <!-- Music notes -->
+  <g fill="#fff" opacity="0.9">
+    <ellipse cx="280" cy="120" rx="10" ry="8" transform="rotate(-20 280 120)"/>
+    <rect x="288" y="60" width="3" height="62"/>
+    <rect x="288" y="60" width="20" height="3"/>
+    <ellipse cx="306" cy="100" rx="10" ry="8" transform="rotate(-20 306 100)"/>
+    <rect x="314" y="60" width="3" height="42"/>
+  </g>
+  <g fill="#fff" opacity="0.7">
+    <ellipse cx="300" cy="210" rx="8" ry="6" transform="rotate(-20 300 210)"/>
+    <rect x="306" y="165" width="3" height="47"/>
+    <path d="M306 165 Q320 155 306 175" fill="none" stroke="#fff" stroke-width="2"/>
+  </g>
+  <!-- Text -->
+  <text x="200" y="275" text-anchor="middle" fill="#fff" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" opacity="0.8">Playlist Maker</text>
+</svg>

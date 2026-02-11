@@ -1,42 +1,59 @@
-import express from 'express';
-import helmet from 'helmet';
-import cors from 'cors';
-import rateLimit from 'express-rate-limit';
+"use strict";
 
-import {logger} from './utils/logger.js';
-import {router} from './routes.js';
-import {requestLogger} from './middleware/request-logger.js';
-import {notFoundHandler} from './middleware/not-found.js';
-import {errorHandler} from './middleware/error-handler.js';
+import express from "express";
+import { fileURLToPath } from "url";
+import path from "path";
+import helmet from "helmet";
+import cors from "cors";
+import rateLimit from "express-rate-limit";
+import routes from "./routes.js";
+import logger from "./utils/logger.js";
+import { create } from "express-handlebars";
+import { requestLogger } from "./middleware/request-logger.js";
+import { notFoundHandler } from "./middleware/not-found.js";
+import { errorHandler } from "./middleware/error-handler.js";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
 
-app.set('trust proxy', 1);
+// Security middleware
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "https://code.jquery.com",
+          "https://cdnjs.cloudflare.com",
+        ],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
+        imgSrc: ["'self'", "data:"],
+        fontSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+      },
+    },
+  }),
+);
+app.use(cors());
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 
-app.use(helmet());
-app.disable('x-powered-by');
-
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
-  methods: ['GET'],
-}));
-
-app.use(rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: {status: 'error', message: 'Too many requests, try again later'},
-}));
-
+// Request logging
 app.use(requestLogger);
-app.use(express.json({limit: '10kb'}));
-app.use('/', router);
 
+// Static files (absolute path)
+app.use(express.static(path.join(__dirname, "public")));
+
+// Templating
+const handlebars = create({ extname: ".hbs" });
+app.engine(".hbs", handlebars.engine);
+app.set("view engine", ".hbs");
+
+// Routes
+app.use("/", routes);
+
+// Error handling (must be after routes)
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-app.listen(port, () => {
-  logger.info(`App listening on port ${port} [${process.env.NODE_ENV || 'development'}]`);
-});
+app.listen(port, () => logger.info(`Your app is listening on port ${port}`));

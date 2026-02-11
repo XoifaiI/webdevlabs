@@ -1,0 +1,15 @@
+<nav class="ui stackable menu">
+  <header class="ui header item"> <a href="/start"> Playlist App </a></header>
+  <div class="right menu">
+    <a id="dashboard" class="item" href="/dashboard"> Dashboard  </a>
+    <a id="about" class="item" href="/about"> About  </a>
+  </div>
+</nav>
+
+<script>
+  (function() {
+    var path = window.location.pathname.replace("/", "");
+    var el = document.getElementById(path);
+    if (el) el.classList.add("active");
+  })();
+</script>

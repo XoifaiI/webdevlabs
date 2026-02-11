@@ -1,8 +1,8 @@
-import {logger} from '../utils/logger.js';
+import logger from "../utils/logger.js";
 
 const requestLogger = (req, res, next) => {
-  logger.info({method: req.method, url: req.originalUrl});
+  logger.info({ method: req.method, url: req.originalUrl });
   next();
 };
 
-export {requestLogger};
+export { requestLogger };

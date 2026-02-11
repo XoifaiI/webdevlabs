@@ -1,0 +1,11 @@
+{
+  "employee": {
+    "name": "Stevie",
+    "fullname": "Stevie Feliciano",
+    "image": "/stevie.svg",
+    "joined": 2016,
+    "job": "Web Developer",
+    "city": "Boston",
+    "mates": 35
+  }
+}
