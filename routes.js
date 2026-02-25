@@ -1,14 +1,19 @@
+"use strict";
+
 import express from "express";
-
-import about from "./controllers/about.js";
-import dashboard from "./controllers/dashboard.js";
-import start from "./controllers/start.js";
-
 const router = express.Router();
+import logger from "./utils/logger.js";
 
-router.get("/", (req, res) => res.redirect("/start"));
-router.get("/start", start.createView);
+import start from "./controllers/start.js";
+import dashboard from "./controllers/dashboard.js";
+import about from "./controllers/about.js";
+import playlist from "./controllers/playlist.js";
+
+router.get("/", start.createView);
 router.get("/dashboard", dashboard.createView);
-router.get("/about", about.aboutView);
+router.get("/about", about.createView);
+router.get("/playlist/:id", playlist.createView);
+
+router.get("/error", (request, response) => response.status(404).end("Page not found."));
 
 export default router;
