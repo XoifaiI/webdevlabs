@@ -18,12 +18,15 @@
   "author": "Mary",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^2.2.2",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "express-handlebars": "^8.0.6",
     "express-rate-limit": "^7.5.0",
+    "fuse.js": "^7.1.0",
     "helmet": "^8.1.0",
     "lowdb": "^7.0.1",
+    "uuid": "^13.0.0",
     "winston": "^3.18.3"
   },
   "devDependencies": {

@@ -1,0 +1,21 @@
+<tr id="song{{@index}}">
+  <td>
+    {{title}}
+  </td>
+  <td>
+    {{artist}}
+  </td>
+
+  <td class="center aligned">
+    <button title="Edit song" class="editSubmit" id="showEdit{{@index}}">
+      <i class="ui pencil icon"></i>
+    </button>
+  </td>
+  <td class="center aligned">
+    <form action="/playlist/{{playlistId}}/deletesong/{{id}}" method="POST" style="display:inline;">
+      <button class="editSubmit" title="Delete song">
+        <i class="ui black trash icon"></i>
+      </button>
+    </form>
+  </td>
+</tr>

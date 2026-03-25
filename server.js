@@ -8,6 +8,7 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import routes from "./routes.js";
 import logger from "./utils/logger.js";
+import bodyParser from "body-parser";
 import { create } from "express-handlebars";
 import { requestLogger } from "./middleware/request-logger.js";
 import { notFoundHandler } from "./middleware/not-found.js";
@@ -43,9 +44,33 @@ app.use(requestLogger);
 
 // Static files (absolute path)
 app.use(express.static(path.join(__dirname, "public")));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Templating
-const handlebars = create({ extname: ".hbs" });
+const handlebars = create({
+  extname: ".hbs",
+  helpers: {
+    uppercase: (inputString) => {
+      return typeof inputString === "string" ? inputString.toUpperCase() : "";
+    },
+    formatDate: (date) => {
+      if (!date) return "";
+      let dateCreated = new Date(date);
+      if (isNaN(dateCreated.getTime())) return "";
+      let options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "2-digit",
+      };
+      return `${dateCreated.toLocaleDateString("en-IE", options)}`;
+    },
+    highlightPopular: (rating) => {
+      let message = rating >= 4 ? "Popular with listeners!" : "";
+      return message;
+    },
+  },
+});
 app.engine(".hbs", handlebars.engine);
 app.set("view engine", ".hbs");
 
