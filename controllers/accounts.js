@@ -6,14 +6,29 @@ import userModel from "../models/user-store.js";
 
 const accounts = {
   async index(request, response) {
+    const loggedInUser = await accounts.getCurrentUser(request);
+    if (loggedInUser) {
+      response.redirect("/dashboard");
+      return;
+    }
     response.render("index", { title: "Welcome" });
   },
 
   async signup(request, response) {
+    const loggedInUser = await accounts.getCurrentUser(request);
+    if (loggedInUser) {
+      response.redirect("/dashboard");
+      return;
+    }
     response.render("signup", { title: "Signup" });
   },
 
   async login(request, response) {
+    const loggedInUser = await accounts.getCurrentUser(request);
+    if (loggedInUser) {
+      response.redirect("/dashboard");
+      return;
+    }
     response.render("login", { title: "Login" });
   },
 
