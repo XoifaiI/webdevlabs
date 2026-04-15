@@ -2,10 +2,18 @@
 
 import logger from "../utils/logger.js";
 import playlistStore from "../models/playlist-store.js";
+import userModel from "../models/user-store.js";
+import accounts from "./accounts.js";
 
 const stats = {
   async createView(request, response, next) {
     try {
+      const loggedInUser = await accounts.getCurrentUser(request);
+      if (!loggedInUser) {
+        response.redirect("/");
+        return;
+      }
+
       logger.info("Stats page loading!");
       await playlistStore.ensureReady();
 
@@ -39,6 +47,9 @@ const stats = {
         .filter((playlist) => (Array.isArray(playlist.songs) ? playlist.songs.length : 0) === maxSongs)
         .map((item) => item.title);
 
+      await userModel.ensureReady();
+      let numUsers = userModel.getUserCount();
+
       const statistics = {
         displayNumPlaylists: numPlaylists,
         displayNumSongs: numSongs,
@@ -48,11 +59,13 @@ const stats = {
         displayFav: favTitles,
         displayMaxSongs: maxSongs,
         displayMostSongsPlaylists: mostSongsPlaylists,
+        displayNumUsers: numUsers,
       };
 
       const viewData = {
         title: "Playlist App Statistics",
         stats: statistics,
+        fullname: `${loggedInUser.firstName} ${loggedInUser.lastName}`,
       };
 
       response.render("stats", viewData);

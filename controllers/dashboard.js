@@ -3,10 +3,17 @@
 import logger from "../utils/logger.js";
 import playlistStore from "../models/playlist-store.js";
 import { v4 as uuidv4 } from "uuid";
+import accounts from "./accounts.js";
 
 const dashboard = {
   async createView(request, response, next) {
     try {
+      const loggedInUser = await accounts.getCurrentUser(request);
+      if (!loggedInUser) {
+        response.redirect("/");
+        return;
+      }
+
       logger.info("Dashboard page loading!");
       await playlistStore.ensureReady();
 
@@ -46,6 +53,7 @@ const dashboard = {
         ratingSelected: request.query.sort === "rating",
         ascSelected: request.query.order === "asc",
         descSelected: request.query.order === "desc",
+        fullname: `${loggedInUser.firstName} ${loggedInUser.lastName}`,
       };
 
       logger.debug(viewData.playlists);
@@ -58,6 +66,12 @@ const dashboard = {
 
   async addPlaylist(request, response, next) {
     try {
+      const loggedInUser = await accounts.getCurrentUser(request);
+      if (!loggedInUser) {
+        response.redirect("/");
+        return;
+      }
+
       const title = typeof request.body.title === "string" ? request.body.title.trim() : "";
       const rating = parseInt(request.body.rating, 10);
       if (!title) {
@@ -82,6 +96,12 @@ const dashboard = {
 
   async deletePlaylist(request, response, next) {
     try {
+      const loggedInUser = await accounts.getCurrentUser(request);
+      if (!loggedInUser) {
+        response.redirect("/");
+        return;
+      }
+
       const playlistId = request.params.id;
       await playlistStore.ensureReady();
       await playlistStore.removePlaylist(playlistId);

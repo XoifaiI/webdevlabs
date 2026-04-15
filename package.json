@@ -5,8 +5,8 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "NODE_ENV=development nodemon server.js"
+    "start": "node --env-file=.env server.js",
+    "dev": "NODE_ENV=development nodemon --env-file=.env --ignore 'models./*.json' server.js"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -18,7 +18,9 @@
   "author": "Mary",
   "license": "ISC",
   "dependencies": {
+    "@noble/hashes": "^2.2.0",
     "body-parser": "^2.2.2",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "express-handlebars": "^8.0.6",

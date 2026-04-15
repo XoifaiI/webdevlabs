@@ -9,6 +9,7 @@ import rateLimit from "express-rate-limit";
 import routes from "./routes.js";
 import logger from "./utils/logger.js";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import { create } from "express-handlebars";
 import { requestLogger } from "./middleware/request-logger.js";
 import { notFoundHandler } from "./middleware/not-found.js";
@@ -44,6 +45,9 @@ app.use(requestLogger);
 
 // Static files (absolute path)
 app.use(express.static(path.join(__dirname, "public")));
+const cookieSecret = process.env.COOKIE_SECRET || (process.env.NODE_ENV === "production" ? undefined : "dev-secret-do-not-use-in-prod");
+if (!cookieSecret) throw new Error("COOKIE_SECRET environment variable is required in production");
+app.use(cookieParser(cookieSecret));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Templating
