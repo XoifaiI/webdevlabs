@@ -45,6 +45,8 @@ app.use(requestLogger);
 
 // Static files (absolute path)
 app.use(express.static(path.join(__dirname, "public")));
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("COOKIE_SECRET set:", !!process.env.COOKIE_SECRET);
 const cookieSecret = process.env.COOKIE_SECRET || (process.env.NODE_ENV === "production" ? undefined : "dev-secret-do-not-use-in-prod");
 if (!cookieSecret) throw new Error("COOKIE_SECRET environment variable is required in production");
 app.use(cookieParser(cookieSecret));
