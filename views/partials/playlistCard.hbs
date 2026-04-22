@@ -1,0 +1,48 @@
+<div class="ui card">
+  <div class="image">
+    <img src="{{picture.url}}" alt="{{title}} playlist cover">
+  </div>
+  <div class="content">
+    <a class="header">{{uppercase title}}</a>
+    <p>
+      <i class="music icon"></i>
+      {{#if songs}}
+        Total songs: {{songs.length}}
+      {{else}}
+        Empty playlist!
+      {{/if}}
+
+      {{#if date}}
+        <br>
+        <i class="calendar alternate outline icon"></i>
+        Created on <i>{{formatDate date}}</i>
+      {{/if}}
+    </p>
+    {{#if rating}}
+      <p>
+        <span
+          class="ui yellow disabled rating"
+          data-icon="star"
+          data-rating="{{rating}}"
+          data-max-rating="5">
+        </span>
+
+        <span style="color: grey; font-size: 90%; font-style: italic">
+          {{highlightPopular rating}}
+        </span>
+      </p>
+    {{/if}}
+  </div>
+
+  <div class="extra content">
+    <a href="/playlist/{{id}}">
+      <i class="ui open folder outline black icon"></i>
+    </a>
+    <form action="/dashboard/deleteplaylist/{{id}}" method="POST" style="display:inline;">
+      <button class="ui tiny red icon button" type="submit">
+        <i class="trash icon"></i>
+      </button>
+    </form>
+  </div>
+
+</div>

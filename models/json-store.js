@@ -2,6 +2,9 @@
 
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({ secure: true });
 
 class JsonStore {
   #ready;
@@ -79,6 +82,15 @@ class JsonStore {
       throw new Error(`Nested item with id "${itemId}" not found in "${arr}"`);
     data[0][arr].splice(index, 1, obj);
     await this.db.write();
+  }
+
+  async addToCloudinary(file) {
+    const result = await cloudinary.uploader.upload(file.tempFilePath);
+    return { url: result.url, public_id: result.public_id };
+  }
+
+  async deleteFromCloudinary(publicId) {
+    return cloudinary.uploader.destroy(publicId);
   }
 }
 

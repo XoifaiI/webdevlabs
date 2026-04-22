@@ -31,7 +31,7 @@ app.use(
           "https://cdnjs.cloudflare.com",
         ],
         styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
-        imgSrc: ["'self'", "data:"],
+        imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
         fontSrc: ["'self'", "https://cdnjs.cloudflare.com"],
       },
     },

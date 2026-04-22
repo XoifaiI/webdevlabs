@@ -1,0 +1,31 @@
+<section class="dashboard-header">
+
+  <h2 class="title">Playlist App Dashboard</h2>
+
+  <form action="/searchCategory" method="GET" class="ui form">
+
+    <div class="ui inline fields">
+      <div class="field">
+        <input type="text" name="searchTerm" placeholder="Search by title..." value="{{search}}" maxlength="200">
+      </div>
+
+      <div class="field">
+        <label>Sort by:</label>
+        <select class="ui dropdown" name="sort" onchange="this.form.submit()">
+          <option value="title" {{#if titleSelected}}selected{{/if}}>Title</option>
+          <option value="rating" {{#if ratingSelected}}selected{{/if}}>Rating</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Order:</label>
+        <select class="ui dropdown" name="order" onchange="this.form.submit()">
+          <option value="asc" {{#if ascSelected}}selected{{/if}}>&#8593;</option>
+          <option value="desc" {{#if descSelected}}selected{{/if}}>&#8595;</option>
+        </select>
+      </div>
+    </div>
+
+  </form>
+
+</section>

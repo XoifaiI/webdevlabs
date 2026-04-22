@@ -1,5 +1,6 @@
 "use strict";
 
+import { unlink } from "node:fs/promises";
 import logger from "../utils/logger.js";
 import playlistStore from "../models/playlist-store.js";
 import { v4 as uuidv4 } from "uuid";
@@ -65,6 +66,7 @@ const dashboard = {
   },
 
   async addPlaylist(request, response, next) {
+    const picture = request.files?.picture;
     try {
       const loggedInUser = await accounts.getCurrentUser(request);
       if (!loggedInUser) {
@@ -74,23 +76,28 @@ const dashboard = {
 
       const title = typeof request.body.title === "string" ? request.body.title.trim() : "";
       const rating = parseInt(request.body.rating, 10);
-      if (!title) {
+      if (!title || !picture) {
         response.redirect("/dashboard");
         return;
       }
       const timestamp = new Date();
       const newPlayList = {
         id: uuidv4(),
+        userid: loggedInUser.id,
         title: title,
         rating: Number.isInteger(rating) && rating >= 1 && rating <= 5 ? rating : 0,
         date: timestamp,
         songs: [],
       };
       await playlistStore.ensureReady();
-      await playlistStore.addPlaylist(newPlayList);
+      await playlistStore.addPlaylist(newPlayList, picture);
       response.redirect("/dashboard");
     } catch (err) {
       next(err);
+    } finally {
+      if (picture?.tempFilePath) {
+        await unlink(picture.tempFilePath).catch(() => {});
+      }
     }
   },
 
@@ -103,6 +110,7 @@ const dashboard = {
       }
 
       const playlistId = request.params.id;
+      logger.debug(`Deleting Playlist ${playlistId}`);
       await playlistStore.ensureReady();
       await playlistStore.removePlaylist(playlistId);
       response.redirect("/dashboard");
